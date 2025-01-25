@@ -8,6 +8,9 @@ import java.util.*;
 import com.example.goodreads.Book;
 import com.example.goodreads.BookRepository;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
 public class BookService implements BookRepository {
     // In order to store the book objects let's use hashmap with the bookid as key
     // and import util and Book is class impported
@@ -41,8 +44,11 @@ public class BookService implements BookRepository {
     }
 
     @Override
-    public Book getBookbyId(int bookId){
+    public Book getBookbyId(int bookId) {
         Book book = hmap.get(bookId);
+        if(book == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
         return book;
     }
 }
